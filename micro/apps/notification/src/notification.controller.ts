@@ -1,20 +1,19 @@
 import { Controller, Get } from '@nestjs/common';
-import { RabbitService } from './rabbit.service';
+import { NotificationService } from './notification.service';
 import { RabbitMQClient } from './rabbit.client';
 import { RabbitMQPublisher } from './rabbit.publisher';
 
 @Controller()
-export class RabbitController {
-  constructor(
-    private readonly rabbitService: RabbitService, 
+export class NotificationController {
+  constructor(private readonly notificationService: NotificationService,
     private readonly rabbitMQClient: RabbitMQClient,
     private readonly rabbitMQPublisher: RabbitMQPublisher) {}  
 
   @Get()
   getHello(): string {
-    return this.rabbitService.getHello();
+    return this.notificationService.getHello();
   }
-
+  
   @Get("rabbit")
   async getHelloRabbit(): Promise<string> {
     const message = 'Hello RabbitMQ!';
