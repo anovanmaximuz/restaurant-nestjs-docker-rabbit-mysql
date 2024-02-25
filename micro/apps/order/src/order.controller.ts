@@ -4,13 +4,10 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiOperation } from '@nestjs/swagger';
 import { Response } from 'express';
-import { RabbitMQPublisher } from './rabbit.publisher';
-
 
 @Controller("order")
 export class OrderController {
-  constructor(private readonly orderService: OrderService,
-    private rabbitMQPublisher: RabbitMQPublisher) {}
+  constructor(private readonly orderService: OrderService) {}
 
   @Post()
   @ApiOperation({ summary: 'place an order' })
@@ -26,8 +23,7 @@ export class OrderController {
         createOrderDto.order_id = order_id;
         let insert = await this.orderService.create(createOrderDto);
         let data = {order_id: order_id};
-        this.rabbitMQPublisher.publishMessage('orders', 'order_notification', JSON.stringify(data));
-        this.rabbitMQPublisher.publishMessage('orders', 'order_confirmation', JSON.stringify(data));
+        this.orderService.fanOutPub(["order_confirmation","order_notification"], JSON.stringify(data));        
         return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success added order id :'+order_id,
@@ -35,6 +31,7 @@ export class OrderController {
           });
        }else{
           let insert = await this.orderService.create(createOrderDto);
+          this.orderService.fanOutPub(["order_confirmation","order_notification"], JSON.stringify(createOrderDto));          
           return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success place new order',
@@ -58,9 +55,8 @@ export class OrderController {
         let getPendingOrder = await this.orderService.getPendingOrder(createOrderDto.order_id);
         let order_id = getPendingOrder.order_id;
         createOrderDto.order_id = order_id;
-        let insert = await this.orderService.create(createOrderDto);
-        let data = {order_id: order_id};
-        this.rabbitMQPublisher.publishMessage('orders', 'order_confirmation', JSON.stringify(data));
+        let insert = await this.orderService.create(createOrderDto);        
+        
         return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success added order id :'+order_id,
@@ -90,14 +86,9 @@ export class OrderController {
     });
   }
 
-  //@Get()
-  //findAll() {
-  //  return this.menuService.findAll();
- // }
-
- @Get('food/:id')
- @ApiOperation({ summary: 'get menu detail' })
-async findFood(@Param('id') id: number, @Res() response: Response) {
+  @Get('food/:id')
+  @ApiOperation({ summary: 'get menu detail' })
+  async findFood(@Param('id') id: number, @Res() response: Response) {
     let food = await this.orderService.getFood(+id);
     if(food != null){
       return response.status(HttpStatus.OK).send({

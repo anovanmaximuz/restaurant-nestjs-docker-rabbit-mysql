@@ -2,12 +2,19 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { PrismaService } from './prisma/prisma.service';
-
+import { RabbitMQPublisher } from './rabbit.publisher';
 
 
 @Injectable()
 export class OrderService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService,
+    private rabbitMQPublisher: RabbitMQPublisher) {}
+
+  fanOutPub(queues: Array<string>, data: string){
+    queues.forEach(queue => {
+      this.rabbitMQPublisher.publishMessage('orders', queue, JSON.stringify(data));
+    });
+  }
 
   create(createOrderDto: CreateOrderDto) {
     return this.prisma.order.create({ data: createOrderDto });
