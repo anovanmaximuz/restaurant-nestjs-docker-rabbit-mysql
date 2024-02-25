@@ -1,30 +1,31 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { CreateMenuDto } from './dto/create-menu.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller("order")
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  async create(@Body() createMenuDto: CreateMenuDto, @Res() response: Response) {
+  async create(@Body() createOrderDto: CreateOrderDto, @Res() response: Response) {
 
-    let hasFinishOrder =  await this.orderService.hasFinishOrder(createMenuDto.order_id);
-    let hasPendingOrder = await this.orderService.hasPendingOrder(createMenuDto.order_id);
+    let hasFinishOrder =  await this.orderService.hasFinishOrder(createOrderDto.order_id);
+    let hasPendingOrder = await this.orderService.hasPendingOrder(createOrderDto.order_id);
 
     if(hasFinishOrder==0){
        if(hasPendingOrder>0){        
-        let getPendingOrder = await this.orderService.getPendingOrder(createMenuDto.order_id);
+        let getPendingOrder = await this.orderService.getPendingOrder(createOrderDto.order_id);
         let order_id = getPendingOrder.order_id;
-        createMenuDto.order_id = order_id;
-        let insert = await this.orderService.create(createMenuDto);
+        createOrderDto.order_id = order_id;
+        let insert = await this.orderService.create(createOrderDto);
         return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success added order id :'+order_id,
             data: insert
           });
        }else{
-          let insert = await this.orderService.create(createMenuDto);
+          let insert = await this.orderService.create(createOrderDto);
           return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success place new order',
@@ -97,11 +98,10 @@ async findFood(@Param('id') id: number, @Res() response: Response) {
     
   }
 
-  //update orderan
-  //@Patch(':id')
-  //update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
-  //  return this.menuService.update(+id, updateMenuDto);
-  //}
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+    return this.orderService.update(+id, updateOrderDto);
+  }
 
   @Delete('cancel/:id')
   async remove(@Param('id') id: string, @Res() response: Response) {

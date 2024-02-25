@@ -11,7 +11,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateMenuDto {
+export class CreateOrderDto {
   @IsNumber()
   @IsNotEmpty()
   @ApiProperty()

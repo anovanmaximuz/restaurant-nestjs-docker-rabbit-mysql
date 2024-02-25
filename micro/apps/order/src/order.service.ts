@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMenuDto } from './dto/create-menu.dto';
-import { UpdateMenuDto } from './dto/update-menu.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
@@ -8,8 +8,8 @@ export class OrderService {
   constructor(private prisma: PrismaService) {}
 
 
-  create(createMenuDto: CreateMenuDto) {
-    return this.prisma.order.create({ data: createMenuDto });
+  create(createOrderDto: CreateOrderDto) {
+    return this.prisma.order.create({ data: createOrderDto });
   }
 
   findAll() {
@@ -56,10 +56,10 @@ export class OrderService {
     return this.prisma.order.findUnique({ where: { id } });
   }
 
-  update(id: number, updateMenuDto: UpdateMenuDto) {
+  update(id: number, updateOrderDto: UpdateOrderDto) {
     return this.prisma.order.update({
       where: { id },
-      data: updateMenuDto,
+      data: updateOrderDto,
     });
   }
 
