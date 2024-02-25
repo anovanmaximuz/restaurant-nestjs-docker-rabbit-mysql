@@ -1,8 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
+import { KitchenService } from './kitchen.service';
 
 @Injectable()
 export class RabbitMQSubscriber implements OnModuleInit {
+  constructor(private readonly kitchenService: KitchenService) {} 
     private readonly url = 'amqp://localhost';
     
     async onModuleInit(): Promise<void> {
@@ -23,8 +25,8 @@ export class RabbitMQSubscriber implements OnModuleInit {
         if (msg) {
           const message = msg.content.toString();
           const jsonData = JSON.parse(message);
-          console.log("json data: "+jsonData.name);
-          console.log(`Consumer received message: ${message}`);
+          this.kitchenService.processOrder(jsonData.order_id);
+          Logger.log(`Consumer received message: ${message}`,'Rabbit MQ');
         }
       },
       { noAck: true },

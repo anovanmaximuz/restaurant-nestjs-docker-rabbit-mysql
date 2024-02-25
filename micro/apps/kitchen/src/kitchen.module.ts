@@ -5,11 +5,13 @@ import { RabbitMQClient } from './rabbit.client';
 import { RabbitMQServer } from './rabbit.server';
 import { RabbitMQPublisher } from './rabbit.publisher';
 import { RabbitMQSubscriber } from './rabbit.subscriber';
+import { PrismaService } from './prisma/prisma.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [],
+  imports: [ PrismaModule],
   controllers: [KitchenController],
-  providers: [KitchenService, RabbitMQClient, RabbitMQServer, RabbitMQPublisher, RabbitMQSubscriber],
+  providers: [PrismaService, KitchenService, RabbitMQClient, RabbitMQServer, RabbitMQPublisher, RabbitMQSubscriber],
   exports: [RabbitMQClient, RabbitMQPublisher],
 })
 export class KitchenModule {}

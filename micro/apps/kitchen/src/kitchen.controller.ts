@@ -9,7 +9,7 @@ export class KitchenController {
     private readonly rabbitMQClient: RabbitMQClient,
     private readonly rabbitMQPublisher: RabbitMQPublisher) {}  
 
-  @Get()
+  
   getHello(): string {
     return this.kitchenService.getHello();
   }
@@ -25,9 +25,8 @@ export class KitchenController {
   async getPublisherHello(): Promise<string> {
     const message = 'a data was sent to exchange';
     const response = await this.rabbitMQClient.sendMessage('order_process', message);
-
-    const pubsubMessage = 'A hopping-good time!';
-    var data = {name:'ano', email: "anovanmaximuz@gmail.com"};
+    
+    var data = {order_id: 112};
     this.rabbitMQPublisher.publishMessage('orders', 'pubsub_key', JSON.stringify(data));
 
     return response;
