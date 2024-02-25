@@ -2,12 +2,16 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus, Htt
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { ApiOperation } from '@nestjs/swagger';
+import { Response } from 'express';
+
 
 @Controller("order")
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
+  @ApiOperation({ summary: 'place an order' })
   async create(@Body() createOrderDto: CreateOrderDto, @Res() response: Response) {
 
     let hasFinishOrder =  await this.orderService.hasFinishOrder(createOrderDto.order_id);
@@ -19,6 +23,7 @@ export class OrderController {
         let order_id = getPendingOrder.order_id;
         createOrderDto.order_id = order_id;
         let insert = await this.orderService.create(createOrderDto);
+
         return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success added order id :'+order_id,
@@ -38,9 +43,10 @@ export class OrderController {
   }
 
   @Get("menu")
+  @ApiOperation({ summary: 'fetch menu' })
   async getAllMenu(@Res() response: Response) {
     let menu = await this.orderService.findAll();
-    return response.status(HttpStatus.OK).send({
+    response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
       message: 'list of menu',
       data: menu
@@ -53,6 +59,7 @@ export class OrderController {
  // }
 
  @Get('food/:id')
+ @ApiOperation({ summary: 'get menu detail' })
 async findFood(@Param('id') id: number, @Res() response: Response) {
     let food = await this.orderService.getFood(+id);
     if(food != null){
@@ -68,6 +75,7 @@ async findFood(@Param('id') id: number, @Res() response: Response) {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'get order details' })
   async findAllOrder(@Param('id') id: string, @Res() response: Response) {
     let orders = await this.orderService.findAllOrder(+id);
     
@@ -84,6 +92,7 @@ async findFood(@Param('id') id: number, @Res() response: Response) {
   }
 
   @Get('status/:id')
+  @ApiOperation({ summary: 'check order status' })
   async findOrderStatus(@Param('id') id: string,  @Res() response: Response) {
     let statusOrder = await this.orderService.findOrderStatus(+id);
     if(statusOrder != null){
@@ -99,11 +108,13 @@ async findFood(@Param('id') id: number, @Res() response: Response) {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'update an order' })
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(+id, updateOrderDto);
   }
 
   @Delete('cancel/:id')
+  @ApiOperation({ summary: 'cancel an order' })
   async remove(@Param('id') id: string, @Res() response: Response) {
     let deleted = await this.orderService.remove(+id);
     if(deleted.count > 0){

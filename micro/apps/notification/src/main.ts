@@ -5,7 +5,7 @@ import { NotificationModule } from './notification.module';
 async function bootstrap() {
   const app = await NestFactory.create(NotificationModule);
   const port = 3005;  
-  Logger.log( 'notification service running on port: '+port, 'Received message:');
+  Logger.log( 'Notification service running on port: '+port, 'Received message:');
   await app.listen(port);
 }
 bootstrap();

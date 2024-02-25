@@ -24,11 +24,11 @@ export class KitchenController {
   @Get("publisher")
   async getPublisherHello(): Promise<string> {
     const message = 'a data was sent to exchange';
-    const response = await this.rabbitMQClient.sendMessage('rpc_queue', message);
+    const response = await this.rabbitMQClient.sendMessage('order_process', message);
 
     const pubsubMessage = 'A hopping-good time!';
     var data = {name:'ano', email: "anovanmaximuz@gmail.com"};
-    this.rabbitMQPublisher.publishMessage('pubsub_exchange', 'pubsub_key', JSON.stringify(data));
+    this.rabbitMQPublisher.publishMessage('orders', 'pubsub_key', JSON.stringify(data));
 
     return response;
   }

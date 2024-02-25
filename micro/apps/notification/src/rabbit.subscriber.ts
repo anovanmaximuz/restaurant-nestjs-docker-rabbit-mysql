@@ -8,7 +8,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
     async onModuleInit(): Promise<void> {
     const connection = await amqp.connect(this.url);
     const channel = await connection.createChannel();
-    const exchange = 'pubsub_exchange';
+    const exchange = 'orders';
     await channel.assertExchange(exchange, 'direct', { durable: false });
     
     const queue = await channel.assertQueue('', { exclusive: true });
@@ -24,7 +24,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
           const message = msg.content.toString();
           const jsonData = JSON.parse(message);
           console.log("json data: "+jsonData.name);
-          console.log(`Consumer received message: ${message}`);
+          console.log(`Notification receiver an order : ${message}`);
         }
       },
       { noAck: true },

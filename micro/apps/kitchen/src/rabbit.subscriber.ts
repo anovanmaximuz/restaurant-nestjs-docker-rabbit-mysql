@@ -8,7 +8,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
     async onModuleInit(): Promise<void> {
     const connection = await amqp.connect(this.url);
     const channel = await connection.createChannel();
-    const exchange = 'pubsub_exchange';
+    const exchange = 'orders';
     await channel.assertExchange(exchange, 'direct', { durable: false });
     
     const queue = await channel.assertQueue('', { exclusive: true });
