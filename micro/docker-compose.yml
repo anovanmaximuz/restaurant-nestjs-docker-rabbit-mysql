@@ -1,5 +1,22 @@
 version: "3.9"
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: uki-nestjs
+    environment:
+      - PORT=${PORT}
+    ports:
+      - '3000:3000'
+      - '3001:3001'
+    expose:
+      - '3000' 
+      - '3001'
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq-local'
@@ -13,6 +30,7 @@ services:
         - rabbitmq_net
   db:
     image: mysql:5.7
+    container_name: 'mysql-local'
     restart: always
     environment:
       MYSQL_DATABASE: 'uki'

@@ -11,9 +11,18 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('Order Microservices')
-    .setDescription('Fetch menu, place an order, check order status')
+    .setTitle('Auth Microservices')
+    .setDescription('User login, register')
     .setVersion('0.1')
+    .addBearerAuth(
+      {
+        description: 'Default JWT Authorization',
+        type: 'http',
+        in: 'header',
+        scheme: 'bearer',
+        bearerFormat: 'jwt'
+      },
+      'defaultBearerAuth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
