@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
 
 @Injectable()
@@ -13,7 +13,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
     
     const queue = await channel.assertQueue('', { exclusive: true });
     
-    const routingKey = 'pubsub_key';
+    const routingKey = 'order_notification';
     await channel.bindQueue(queue.queue, exchange, routingKey);
     
     // Consume messages from the queue
@@ -22,9 +22,8 @@ export class RabbitMQSubscriber implements OnModuleInit {
       (msg) => {
         if (msg) {
           const message = msg.content.toString();
-          const jsonData = JSON.parse(message);
-          console.log("json data: "+jsonData.name);
-          console.log(`Notification receiver an order : ${message}`);
+          //const jsonData = JSON.parse(message);
+          Logger.log(`Notification prepare send confirmation to ${message}`,'Rabbit MQ');
         }
       },
       { noAck: true },

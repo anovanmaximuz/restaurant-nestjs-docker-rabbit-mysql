@@ -8,13 +8,13 @@ export class RabbitMQServer implements OnModuleInit {
     async onModuleInit(): Promise<void> {
         const connection = await amqp.connect(this.url);
         const channel = await connection.createChannel();
-        const queue = 'order_confirmation';
+        const queue = 'order_notification';
         await channel.assertQueue(queue, { durable: false });
 
         channel.consume(queue, async (msg) => {
             if (msg) {
               const message = msg.content.toString();
-              console.log(`Received message: ${message}`);
+              //console.log(`Received message: ${message}`);
               
               const response = `Processed: ${message}`;
           

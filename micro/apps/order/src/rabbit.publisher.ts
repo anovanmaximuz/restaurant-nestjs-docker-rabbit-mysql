@@ -13,7 +13,7 @@ export class RabbitMQPublisher {
 
     // Publish the message
     channel.publish(exchange, routingKey, Buffer.from(message));
-    //console.log(`Sent message: ${message}`);
+    console.log(`Sent message: ${message}`);
 
     setTimeout(() => {
       connection.close();

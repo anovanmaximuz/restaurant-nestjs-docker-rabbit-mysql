@@ -4,11 +4,13 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiOperation } from '@nestjs/swagger';
 import { Response } from 'express';
+import { RabbitMQPublisher } from './rabbit.publisher';
 
 
 @Controller("order")
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(private readonly orderService: OrderService,
+    private rabbitMQPublisher: RabbitMQPublisher) {}
 
   @Post()
   @ApiOperation({ summary: 'place an order' })
@@ -23,7 +25,9 @@ export class OrderController {
         let order_id = getPendingOrder.order_id;
         createOrderDto.order_id = order_id;
         let insert = await this.orderService.create(createOrderDto);
-
+        let data = {order_id: order_id};
+        this.rabbitMQPublisher.publishMessage('orders', 'order_notification', JSON.stringify(data));
+        this.rabbitMQPublisher.publishMessage('orders', 'order_confirmation', JSON.stringify(data));
         return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
             message: 'Success added order id :'+order_id,
@@ -38,7 +42,40 @@ export class OrderController {
           });
        }      
     }else{
-      throw new HttpException("Order ID not found", HttpStatus.BAD_REQUEST);      
+      throw new HttpException("Order ID:"+createOrderDto.order_id+" being processed", HttpStatus.BAD_REQUEST);      
+    }
+  }
+
+  @Post("/checkout")
+  @ApiOperation({ summary: 'checkout an order' })
+  async checkout(@Body() createOrderDto: CreateOrderDto, @Res() response: Response) {
+
+    let hasFinishOrder =  await this.orderService.hasFinishOrder(createOrderDto.order_id);
+    let hasPendingOrder = await this.orderService.hasPendingOrder(createOrderDto.order_id);
+
+    if(hasFinishOrder==0){
+       if(hasPendingOrder>0){        
+        let getPendingOrder = await this.orderService.getPendingOrder(createOrderDto.order_id);
+        let order_id = getPendingOrder.order_id;
+        createOrderDto.order_id = order_id;
+        let insert = await this.orderService.create(createOrderDto);
+        let data = {order_id: order_id};
+        this.rabbitMQPublisher.publishMessage('orders', 'order_confirmation', JSON.stringify(data));
+        return response.status(HttpStatus.OK).send({
+            statusCode: HttpStatus.OK,
+            message: 'Success added order id :'+order_id,
+            data: insert
+          });
+       }else{
+          let insert = await this.orderService.create(createOrderDto);
+          return response.status(HttpStatus.OK).send({
+            statusCode: HttpStatus.OK,
+            message: 'Success place new order',
+            data: insert
+          });
+       }      
+    }else{
+      throw new HttpException("Order ID:"+createOrderDto.order_id+" being processed", HttpStatus.BAD_REQUEST);      
     }
   }
 

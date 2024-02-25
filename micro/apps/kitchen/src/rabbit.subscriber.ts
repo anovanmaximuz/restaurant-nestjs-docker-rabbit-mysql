@@ -15,7 +15,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
     
     const queue = await channel.assertQueue('', { exclusive: true });
     
-    const routingKey = 'pubsub_key';
+    const routingKey = 'order_confirmation';
     await channel.bindQueue(queue.queue, exchange, routingKey);
     
     // Consume messages from the queue
@@ -26,7 +26,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
           const message = msg.content.toString();
           const jsonData = JSON.parse(message);
           this.kitchenService.processOrder(jsonData.order_id);
-          Logger.log(`Consumer received message: ${message}`,'Rabbit MQ');
+          Logger.log(`Kitchen received an order: ${message}`,'Rabbit MQ');
         }
       },
       { noAck: true },

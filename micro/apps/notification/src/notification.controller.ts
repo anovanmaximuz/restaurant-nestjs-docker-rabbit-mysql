@@ -13,18 +13,18 @@ export class NotificationController {
   @Get("rabbit")
   async getHelloRabbit(): Promise<string> {
     const message = 'Hello RabbitMQ!';
-    const response = await this.rabbitMQClient.sendMessage('order_confirmation', message);
+    const response = await this.rabbitMQClient.sendMessage('order_notification', message);
     return response;
   }
 
   @Get("publisher")
   async getPublisherHello(): Promise<string> {
     const message = 'a data was sent to exchange';
-    const response = await this.rabbitMQClient.sendMessage('order_confirmation', message);
+    const response = await this.rabbitMQClient.sendMessage('order_notification', message);
 
     const pubsubMessage = 'A hopping-good time!';
     var data = {name:'ano', email: "anovanmaximuz@gmail.com"};
-    this.rabbitMQPublisher.publishMessage('orders', 'pubsub_key', JSON.stringify(data));
+    this.rabbitMQPublisher.publishMessage('orders', 'order_notification', JSON.stringify(data));
 
     return response;
   }
