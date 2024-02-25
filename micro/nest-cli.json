@@ -27,6 +27,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/order/tsconfig.app.json"
       }
+    },
+    "rabbit": {
+      "type": "application",
+      "root": "apps/rabbit",
+      "entryFile": "main",
+      "sourceRoot": "apps/rabbit/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rabbit/tsconfig.app.json"
+      }
     }
   }
 }
