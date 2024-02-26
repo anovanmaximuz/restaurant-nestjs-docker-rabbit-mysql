@@ -52,7 +52,7 @@ export class AppController {
   }
 
   @Post("/checkout")
-  @ApiOperation({ summary: 'place an order' })
+  @ApiOperation({ summary: 'checkout an order' })
   async checkout(@Body() createCheckoutDto: CreateCheckoutDto, @Res() response: Response) {
 
     let hasFinishOrder =  await this.appService.hasFinishOrder(createCheckoutDto.order_id);
