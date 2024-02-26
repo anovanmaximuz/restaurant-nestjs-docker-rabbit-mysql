@@ -1,36 +1,48 @@
 # Senior Fullstack Developer Assestment Task
 
-This repository contains an example of building microservices using NestJS, RabbitMQ, and MySQL.
+This project starts February 24, 2024 at 9:30 pm, this is a microservice using NESTJS as the core platform, RabbitMQ as the exchanger, MySQL as the relation database, JWT for user authentication.
+
+This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
 
 ## Prerequisites
 
-- Node.js
+- Node.js 18.x
 - RabbitMQ
 - MySQL
+- Swagger
 
 ## Installation
 
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/wardvisual/microservices-nestjs.git
+   git clone https://github.com/anovanmaximuz/uki
    ```
 
-2. Install the dependencies
+2. Dockernize
+   Make sure Docker is installed on your operating system, and run the `docker compose up` command
 
+## alternatives
+If you experience problems with Dockernize, you can do it manually:
    ```sh
-   cd microservices-nestjs/admin && npm install
+   cd micro && npm install
    ```
 
    ```sh
-   cd microservices-nestjs/user && npm install
+   cd order && npm install
+   ```
+
+   ```sh
+   cd notification && npm install
+   ```
+
+   ```sh
+   cd kitchen && npm install
    ```
 
 ## Usage
 
-The application provides two services: `admin` and `user`. `admin` is responsible for sending messages to `user` via a RabbitMQ message queue.
-
-You can test the communication between the services by sending a message to `admin` and observing the message being received by `user`.
+The application provides two services: `micro` `order` `notification` `kitchen`. `micro` to handle user authentication, `order` to place an order, check the menu and status, `notification` tasked with sending order notification emails, `kitchen` receive orders and carry out order processing. where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
 
 ## Note
 
@@ -44,4 +56,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Edward Fernandez: [Wardvisual](https://wardvisual.me/)
+Ano: [Bedcrypto](https://bedcrypto.com/)
