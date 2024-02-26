@@ -24,10 +24,9 @@ This project was carried out in a short time without any preparation, so that so
    ```
 
 2. Dockernize
-   Make sure Docker is installed on your operating system, and look for the `docker-compose.yml` file or run the `docker compose up` command, there are several options:
-   - Full dockernizing, change the `docker-compose-backup.yml` file to `docker-compose.yml`, but first move the existing `docker-compose.yml` file
-   - Separate dockernizing, without changing anything, use the existing `docker-compose.yml` file to run `docker compose up`, this is just dockernze mysql and rabbitmq, because we haven't had time to separate the entire app
-  
+   Make sure Docker is installed on your operating system, there are several options:
+   - Full dockernizing, use file `docker-compose.yml` if this failed try next option 
+   - Separate dockernizing, without changing anything, use the existing `Dockerfile` file to run `docker build` to build image
 3. Env
    Create a .env file and paste below
    ``` sh
@@ -35,22 +34,18 @@ This project was carried out in a short time without any preparation, so that so
    ```
 
 ## Alternatives
-If you experience problems with Dockernize, you can do it manually:
+If you experience problems with Dockernize, you can do it manually, use this command below to run microservices
    ```sh
-   cd micro && npm install
-   ```
-Use this command below to run microservices
-   ```sh
-   npm start:dev
-   npm start:dev order
-   start:dev notification
-   start:dev kitchen
+   cd to_folder_service
+   npm install
+   npx prisma generate
+   npm run start:dev
    ```
 
 ## Data Preparation
 Make sure MySQL running before continue, we use Prisma as ORM in NestJS:
 ``` sh
-cd micro
+cd order
 # to create database tables need
 npx prisma db push
 
@@ -59,16 +54,16 @@ npx prisma db seed
 ```
 
 ## API Documentations
-Available for auth/micro and order service, using swagger as an API generator to make it easier to consume.
-- Order API documentation can be access via `http://localhost:3001/docs`
-- Auth or Micro API documentation can be access via `http://localhost:3000/docs`
+Available for auth and order service, using swagger as an API generator to make it easier to consume.
+- Order API documentation can be access via `http://localhost:3000/docs`
+- Auth API documentation can be access via `http://localhost:3001/docs`
 
 ![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/swagger.png?raw=true)
  
 
 ## Usage
 
-The application provides four services: `micro` `order` `notification` `kitchen`. `micro` to handle user authentication, `order` to place an order, check the menu and status, `notification` tasked with sending order notification emails, `kitchen` receive orders and carry out order processing. where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
+The application provides four services: `auth` `order` `notification` `kitchen`. `auth` to handle user authentication, `order` to place an order, check the menu and status, `notification` tasked with sending order notification emails, `kitchen` receive orders and carry out order processing. where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
 
 ## How to Use
 1. Make you has been registered to get user_id
