@@ -4,6 +4,10 @@ This project starts February 24, 2024 at 9:30 pm, this is a microservice using N
 
 This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
 
+## Architecture
+
+![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/skema.png?raw=true)
+
 ## Prerequisites
 
 - Node.js 18.x
@@ -41,7 +45,8 @@ Use this command below to run microservices
 Available for auth/micro and order service, using swagger as an API generator to make it easier to consume.
 - Order API documentation can be access via `http://localhost:3001/docs`
 - Auth or Micro API documentation can be access via `http://localhost:3000/docs`
- 
+
+![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/swagger.png?raw=true)
  
 
 ## Usage
