@@ -129,11 +129,11 @@ export class OrderController {
     
   }
 
-  @Patch(':id')
-  @ApiOperation({ summary: 'update an order' })
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
-  }
+  //@Patch(':id')
+  //@ApiOperation({ summary: 'update an order' })
+  //update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+  //  return this.orderService.update(+id, updateOrderDto);
+ // }
 
   @Delete('cancel/:id')
   @ApiOperation({ summary: 'cancel an order' })
