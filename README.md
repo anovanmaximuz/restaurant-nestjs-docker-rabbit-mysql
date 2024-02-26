@@ -27,6 +27,12 @@ This project was carried out in a short time without any preparation, so that so
    Make sure Docker is installed on your operating system, and look for the `docker-compose.yml` file or run the `docker compose up` command, there are several options:
    - Full dockernizing, change the `docker-compose-backup.yml` file to `docker-compose.yml`, but first move the existing `docker-compose.yml` file
    - Separate dockernizing, without changing anything, use the existing `docker-compose.yml` file to run `docker compose up`, this is just dockernze mysql and rabbitmq, because we haven't had time to separate the entire app
+  
+3. Env
+   Create a .env file and paste below
+   ``` sh
+   DATABASE_URL="mysql://uki:uki123@localhost:3306/uki"
+   ```
 
 ## Alternatives
 If you experience problems with Dockernize, you can do it manually:
