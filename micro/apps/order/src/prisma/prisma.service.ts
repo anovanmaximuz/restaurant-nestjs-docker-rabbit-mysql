@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit{
         this.$on('query', async (e) => {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          console.log(`${e.query} ${e.params}`);
+          Logger.log(`[${e.query}] Params ${e.params}`,"Query");          
         });
       }
     
