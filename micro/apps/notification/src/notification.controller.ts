@@ -9,6 +9,9 @@ export class NotificationController {
     private readonly rabbitMQClient: RabbitMQClient,
     private readonly rabbitMQPublisher: RabbitMQPublisher) {}  
 
+  getHello(){
+    return 'helo';
+  }
   
   @Get("rabbit")
   async getHelloRabbit(): Promise<string> {

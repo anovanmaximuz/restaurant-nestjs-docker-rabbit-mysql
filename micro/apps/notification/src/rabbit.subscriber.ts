@@ -1,10 +1,11 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
 import { MailService } from './mail/mail.service';
+import { PrismaService } from './prisma/prisma.service';
 
 @Injectable()
 export class RabbitMQSubscriber implements OnModuleInit {
-    constructor(private mailService:MailService) {}
+    constructor(private mailService:MailService, private prismaService:PrismaService) {}
     private readonly url = 'amqp://localhost';
     
     async onModuleInit(): Promise<void> {
@@ -24,9 +25,10 @@ export class RabbitMQSubscriber implements OnModuleInit {
       (msg) => {
         if (msg) {
           const message = msg.content.toString();
-          //const jsonData = JSON.parse(message);
-          this.sendEmail();
-          Logger.log(`Notification prepare send confirmation to ${message}`,'Rabbit MQ');
+          let myJSONs = JSON.parse(message);
+          console.log("orderan "+myJSONs);
+          this.sendEmail(1212);
+          Logger.log(`Notification prepare send confirmation to ${myJSONs}`,'Rabbit MQ');
         }
       },
       { noAck: true },
@@ -34,8 +36,15 @@ export class RabbitMQSubscriber implements OnModuleInit {
   }
 
   
-  async sendEmail() {    
-    let kirim = await this.mailService.sendUserConfirmation("anovanmaximuz@gmail.com","ano",["foods","food 2","food 5"]);
-    console.log(kirim);
+  async sendEmail(order_id: number) {        
+    const result: Array<any> = await this.prismaService.$queryRaw`select  b.\`name\` from \`Order\` a LEFT JOIN Food b ON b.id=a.food_id  where a.order_id= ${order_id};`;  
+    let foods = [];
+    if(result.length > 0){
+      result.forEach(function(items, index) {
+        foods.push((index+1)+". "+items.name);
+      });
+    }  
+
+    await this.mailService.sendUserConfirmation("anovanmaximuz@gmail.com","ano", foods);    
   }
 }

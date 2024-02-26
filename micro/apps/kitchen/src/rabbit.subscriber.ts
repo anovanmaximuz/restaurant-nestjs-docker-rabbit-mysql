@@ -25,6 +25,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
         if (msg) {
           const message = msg.content.toString();
           const jsonData = JSON.parse(message);
+          Logger.log("order id:"+jsonData.order_id);
           this.kitchenService.processOrder(jsonData.order_id);
           Logger.log(`Kitchen received an order: ${message}`,'Rabbit MQ');
         }
