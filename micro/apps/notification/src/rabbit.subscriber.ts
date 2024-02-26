@@ -25,10 +25,9 @@ export class RabbitMQSubscriber implements OnModuleInit {
       (msg) => {
         if (msg) {
           const message = msg.content.toString();
-          let myJSONs = JSON.parse(message);
-          console.log("orderan "+myJSONs);
-          //this.sendEmail(1212);
-          Logger.log(`Notification prepare send confirmation to ${myJSONs}`,'Rabbit MQ');
+          const myData = message.split("|");          
+          this.sendEmail(myData[1],myData[2],myData[0]);
+          Logger.log(`Notification prepare send confirmation to ${message}`,'Rabbit MQ');
         }
       },
       { noAck: true },
@@ -36,7 +35,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
   }
 
   
-  async sendEmail(order_id: number) {        
+  async sendEmail(name: string, email: string, order_id: number) {        
     const result: Array<any> = await this.prismaService.$queryRaw`select  b.\`name\` from \`Order\` a LEFT JOIN Food b ON b.id=a.food_id  where a.order_id= ${order_id};`;  
     let foods = [];
     if(result.length > 0){
@@ -45,6 +44,6 @@ export class RabbitMQSubscriber implements OnModuleInit {
       });
     }  
 
-    await this.mailService.sendUserConfirmation("anovanmaximuz@gmail.com","ano", foods);    
+    await this.mailService.sendUserConfirmation(email,name, foods);    
   }
 }

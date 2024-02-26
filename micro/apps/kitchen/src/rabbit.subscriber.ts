@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import * as amqp from 'amqplib';
 import { KitchenService } from './kitchen.service';
+import { parse } from 'path';
 
 @Injectable()
 export class RabbitMQSubscriber implements OnModuleInit {
@@ -24,10 +25,9 @@ export class RabbitMQSubscriber implements OnModuleInit {
       (msg) => {
         if (msg) {
           const message = msg.content.toString();
-          const jsonData = JSON.parse(message);
-          Logger.log("order id:"+jsonData.order_id);
-          this.kitchenService.processOrder(jsonData.order_id);
-          Logger.log(`Kitchen received an order: ${message}`,'Rabbit MQ');
+          const myData = message.split("|");          
+          this.kitchenService.processOrder(parseInt(myData[0]));
+          Logger.log(`Kitchen received an order: ${myData}`,'Rabbit MQ');
         }
       },
       { noAck: true },
