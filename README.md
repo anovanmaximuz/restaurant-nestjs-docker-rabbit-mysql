@@ -41,6 +41,17 @@ Use this command below to run microservices
    start:dev kitchen
    ```
 
+## Data Preparation
+Make sure MySQL running before continue, we use Prisma as ORM in NestJS:
+``` sh
+cd micro
+# to create database tables need
+npx prisma db push
+
+#to create dummy data like foods, etc
+npx prisma db seed
+```
+
 ## API Documentations
 Available for auth/micro and order service, using swagger as an API generator to make it easier to consume.
 - Order API documentation can be access via `http://localhost:3001/docs`
