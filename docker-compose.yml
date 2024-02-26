@@ -1,5 +1,15 @@
 version: "3.9"
 services:
+  web:
+    build:
+      context: ./
+      dockerfile: ./order/Dockerfile
+    restart: always
+    volumes:
+      - .:/usr/src/app/order
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq-local'
