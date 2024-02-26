@@ -14,15 +14,6 @@ async function bootstrap() {
     .setTitle('Auth Microservices')
     .setDescription('User login, register')
     .setVersion('0.1')
-    .addBearerAuth(
-      {
-        description: 'Default JWT Authorization',
-        type: 'http',
-        in: 'header',
-        scheme: 'bearer',
-        bearerFormat: 'jwt'
-      },
-      'defaultBearerAuth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

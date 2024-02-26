@@ -4,6 +4,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiOperation } from '@nestjs/swagger';
 import { Response } from 'express';
+import { CreateCheckoutDto } from './dto/create-checkout.dto';
 
 @Controller("order")
 export class OrderController {
@@ -12,67 +13,60 @@ export class OrderController {
   @Post()
   @ApiOperation({ summary: 'place an order' })
   async create(@Body() createOrderDto: CreateOrderDto, @Res() response: Response) {
+    
+      //check menu exist
+      let isMenuExist =  await this.orderService.findFood(createOrderDto.food_id);
+      if(isMenuExist==0) { 
+        throw new HttpException("No food menu available, please see the existing menu list!", HttpStatus.BAD_REQUEST);      
+      }
+    
+      let hasFinishOrder =  await this.orderService.hasFinishOrder(createOrderDto.order_id);
+      if(hasFinishOrder>0){
+        throw new HttpException("Order ID:"+createOrderDto.order_id+" being processed", HttpStatus.BAD_REQUEST);      
+      }
 
-    let hasFinishOrder =  await this.orderService.hasFinishOrder(createOrderDto.order_id);
-    let hasPendingOrder = await this.orderService.hasPendingOrder(createOrderDto.order_id);
-
-    if(hasFinishOrder==0){
-       if(hasPendingOrder>0){        
+      let hasPendingOrder = await this.orderService.hasPendingOrder(createOrderDto.order_id);  
+  
+      if(hasPendingOrder>0){        
         let getPendingOrder = await this.orderService.getPendingOrder(createOrderDto.order_id);
         let order_id = getPendingOrder.order_id;
         createOrderDto.order_id = order_id;
-        let insert = await this.orderService.create(createOrderDto);
-        let data = {order_id: order_id};
-        this.orderService.fanOutPub(["order_confirmation","order_notification"], JSON.stringify(data));        
+        let insert = await this.orderService.create(createOrderDto);                
         return response.status(HttpStatus.OK).send({
             statusCode: HttpStatus.OK,
-            message: 'Success added order id :'+order_id,
+            message: 'Success added order id :'+order_id+' for menu '+getPendingOrder.food_id,
             data: insert
           });
-       }else{
-          let insert = await this.orderService.create(createOrderDto);
-          this.orderService.fanOutPub(["order_confirmation","order_notification"], JSON.stringify(createOrderDto));          
-          return response.status(HttpStatus.OK).send({
-            statusCode: HttpStatus.OK,
-            message: 'Success place new order',
-            data: insert
-          });
-       }      
-    }else{
-      throw new HttpException("Order ID:"+createOrderDto.order_id+" being processed", HttpStatus.BAD_REQUEST);      
-    }
+      }else{
+        let insert = await this.orderService.create(createOrderDto);          
+        return response.status(HttpStatus.OK).send({
+          statusCode: HttpStatus.OK,
+          message: 'Success place new order',
+          data: insert
+        });
+      }       
   }
 
   @Post("/checkout")
-  @ApiOperation({ summary: 'checkout an order' })
-  async checkout(@Body() createOrderDto: CreateOrderDto, @Res() response: Response) {
+  @ApiOperation({ summary: 'place an order' })
+  async checkout(@Body() createCheckoutDto: CreateCheckoutDto, @Res() response: Response) {
 
-    let hasFinishOrder =  await this.orderService.hasFinishOrder(createOrderDto.order_id);
-    let hasPendingOrder = await this.orderService.hasPendingOrder(createOrderDto.order_id);
-
-    if(hasFinishOrder==0){
-       if(hasPendingOrder>0){        
-        let getPendingOrder = await this.orderService.getPendingOrder(createOrderDto.order_id);
-        let order_id = getPendingOrder.order_id;
-        createOrderDto.order_id = order_id;
-        let insert = await this.orderService.create(createOrderDto);        
-        
-        return response.status(HttpStatus.OK).send({
-            statusCode: HttpStatus.OK,
-            message: 'Success added order id :'+order_id,
-            data: insert
-          });
-       }else{
-          let insert = await this.orderService.create(createOrderDto);
-          return response.status(HttpStatus.OK).send({
-            statusCode: HttpStatus.OK,
-            message: 'Success place new order',
-            data: insert
-          });
-       }      
-    }else{
-      throw new HttpException("Order ID:"+createOrderDto.order_id+" being processed", HttpStatus.BAD_REQUEST);      
+    let hasFinishOrder =  await this.orderService.hasFinishOrder(createCheckoutDto.order_id);
+    if(hasFinishOrder>0){
+      throw new HttpException("Order being processed", HttpStatus.BAD_REQUEST);      
     }
+    
+    let hasPendingOrder = await this.orderService.hasPendingOrder(createCheckoutDto.order_id);
+    if(hasPendingOrder==0){    
+      throw new HttpException("You have to order first", HttpStatus.BAD_REQUEST); 
+    }
+
+    let getPendingOrder = await this.orderService.getPendingOrder(createCheckoutDto.order_id);
+    this.orderService.fanOutPub(["order_confirmation","order_notification"], JSON.stringify({order_id: getPendingOrder.order_id}));
+    return response.status(HttpStatus.OK).send({
+      statusCode: HttpStatus.OK,
+      message: 'We are preparing your order'
+    });
   }
 
   @Get("menu")
