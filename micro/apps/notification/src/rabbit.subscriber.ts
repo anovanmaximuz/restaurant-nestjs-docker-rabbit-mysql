@@ -27,7 +27,7 @@ export class RabbitMQSubscriber implements OnModuleInit {
           const message = msg.content.toString();
           let myJSONs = JSON.parse(message);
           console.log("orderan "+myJSONs);
-          this.sendEmail(1212);
+          //this.sendEmail(1212);
           Logger.log(`Notification prepare send confirmation to ${myJSONs}`,'Rabbit MQ');
         }
       },

@@ -13,7 +13,11 @@ export class OrderController {
   @Post()
   @ApiOperation({ summary: 'place an order' })
   async create(@Body() createOrderDto: CreateOrderDto, @Res() response: Response) {
-    
+
+      let userExist = await this.orderService.findUser(createOrderDto.user_id);
+      if(userExist==0) { 
+        throw new HttpException("We did not find any user data", HttpStatus.BAD_REQUEST);      
+      }
       //check menu exist
       let isMenuExist =  await this.orderService.findFood(createOrderDto.food_id);
       if(isMenuExist==0) { 
@@ -62,7 +66,11 @@ export class OrderController {
     }
 
     let getPendingOrder = await this.orderService.getPendingOrder(createCheckoutDto.order_id);
-    this.orderService.fanOutPub(["order_confirmation","order_notification"], JSON.stringify({order_id: getPendingOrder.order_id}));
+    let userInfo = await this.orderService.getUser(getPendingOrder.user_id);
+    
+    //order_id,name,email
+    let msgFormat = getPendingOrder.order_id+"|"+userInfo.name+"|"+userInfo.email;
+    this.orderService.fanOutPub(["order_confirmation","order_notification"], msgFormat);
     return response.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
       message: 'We are preparing your order'

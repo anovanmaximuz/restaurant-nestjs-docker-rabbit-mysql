@@ -12,7 +12,7 @@ export class OrderService {
 
   fanOutPub(queues: Array<string>, data: string){
     queues.forEach(queue => {
-      this.rabbitMQPublisher.publishMessage('orders', queue, JSON.stringify(data));
+      this.rabbitMQPublisher.publishMessage('orders', queue, data);
     });
   }
 
@@ -26,6 +26,14 @@ export class OrderService {
 
   findFood(food_id: number) {
     return this.prisma.food.count({ where: { id: food_id} });
+  }
+
+  findUser(id: number) {
+    return this.prisma.user.count({ where: { id} });
+  }
+
+  getUser(id: number) {
+    return this.prisma.user.findUnique({ where: { id} });
   }
 
   getFood(food_id: number) {
