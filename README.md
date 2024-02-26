@@ -53,6 +53,13 @@ Available for auth/micro and order service, using swagger as an API generator to
 
 The application provides four services: `micro` `order` `notification` `kitchen`. `micro` to handle user authentication, `order` to place an order, check the menu and status, `notification` tasked with sending order notification emails, `kitchen` receive orders and carry out order processing. where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
 
+## How to Use
+1. Make you has been registered to get user_id
+2. Fetch menu before place an order to get food_id
+3. Determine your order_id but now it is still in number format, it can be developed for unique invoice numbers in the future
+4. If you finish choose then menu then you can Checkout using order_id
+5. After checkout, you will receive an email order detail
+
 ## Note
 
 This is just an example, you can use this as a starting point to build your own microservices with NestJS, RabbitMQ, and multiple databases. Make sure to update the database credentials accordingly before running the application.
