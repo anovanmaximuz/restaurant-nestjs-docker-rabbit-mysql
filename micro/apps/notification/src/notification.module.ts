@@ -5,9 +5,10 @@ import { RabbitMQClient } from './rabbit.client';
 import { RabbitMQServer } from './rabbit.server';
 import { RabbitMQPublisher } from './rabbit.publisher';
 import { RabbitMQSubscriber } from './rabbit.subscriber';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-  imports: [],
+  imports: [MailModule],
   controllers: [NotificationController],
   providers: [NotificationService, RabbitMQClient, RabbitMQServer, RabbitMQPublisher, RabbitMQSubscriber],
   exports: [RabbitMQClient, RabbitMQPublisher],
