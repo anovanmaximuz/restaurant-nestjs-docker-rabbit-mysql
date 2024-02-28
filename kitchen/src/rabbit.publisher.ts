@@ -3,7 +3,7 @@ import * as amqp from 'amqplib';
 
 @Injectable()
 export class RabbitMQPublisher {
-  private readonly url = 'amqp://localhost';
+  private readonly url = 'amqp://rabbitmq-local';
 
   async publishMessage(exchange: string, routingKey: string, message: string): Promise<void> {
     const connection = await amqp.connect(this.url);

@@ -1,13 +1,8 @@
 FROM node:18
-
 WORKDIR /app/kitchen
-
-COPY package*.json ./
-
+COPY ./kitchen/ .
 RUN npm install
-
-COPY . .
-
-RUN npm run build
-
 CMD [ "npm", "run", "start:dev" ]
+
+# Exposing server port
+EXPOSE 3000

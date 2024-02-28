@@ -1,22 +1,45 @@
 version: "3.9"
 services:
+  auth:
+    container_name: auth-service
+    build:
+      context: .
+      dockerfile: ./auth/Dockerfile
+    ports:
+        - 3001:3001
+    expose:
+      - '3001'
+    env_file:
+      - ./auth/.env
   order:
     container_name: order-service
     build:
       context: .
-      dockerfile: ./order/Dockerfile    
-    tty: true
+      dockerfile: ./order/Dockerfile
     ports:
-      - '3000:3000'
-      - '5555:5555'
+        - 3000:3000
     expose:
-      - '3000'  
-    volumes:
-      - .:/app/order
-    depends_on:
-      - db
+      - '3000'
     env_file:
       - ./order/.env
+  kitchen:
+    container_name: kitchen-service
+    build:
+      context: .
+      dockerfile: ./kitchen/Dockerfile
+    env_file:
+      - ./kitchen/.env
+  notification:
+    container_name: notification-service
+    build:
+      context: .
+      dockerfile: ./notification/Dockerfile
+    ports:
+        - 5000:5000
+    expose:
+      - '5000'
+    env_file:
+      - ./notification/.env
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq-local'
