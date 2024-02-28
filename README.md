@@ -24,13 +24,8 @@ This project was carried out in a short time without any preparation, so that so
    ```
 
 2. Dockernize
-   Make sure Docker is installed on your operating system, there are several options:
-   - Full dockernizing, use file `docker-compose.yml` if this failed try next option 
-   - Separate dockernizing, without changing anything, use the existing `Dockerfile` file to run `docker build` to build image
-3. Env
-   Create a .env file and paste below
-   ``` sh
-   DATABASE_URL="mysql://uki:uki123@localhost:3306/uki"
+   ```sh
+   docker compose up
    ```
 
 ## Alternatives
@@ -41,17 +36,6 @@ If you experience problems with Dockernize, you can do it manually, use this com
    npx prisma generate
    npm run start:dev
    ```
-
-## Data Preparation
-Make sure MySQL running before continue, we use Prisma as ORM in NestJS:
-``` sh
-cd order
-# to create database tables need
-npx prisma db push
-
-#to create dummy data like foods, etc
-npx prisma db seed
-```
 
 ## API Documentations
 Available for auth and order service, using swagger as an API generator to make it easier to consume.
