@@ -58,9 +58,9 @@ The application provides four services: `auth` `order` `notification` `kitchen`.
 4. If you finish choose then menu then you can Checkout using order_id
 5. After checkout, you will receive an email order detail
 
-## Note
+## Limitation,  for next development
 
-This is just an example, you can use this as a starting point to build your own microservices with NestJS, RabbitMQ, and multiple databases. Make sure to update the database credentials accordingly before running the application.
+Requires further integration to use `JWT Auth` for several services that require user data
 
 ## License
 
