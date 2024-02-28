@@ -70,4 +70,14 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Ano: [Bedcrypto](https://bedcrypto.com/)
+Ano Van: [LinkedIn](https://www.linkedin.com/in/anovan/)
+
+## My Crypto AI Platform
+Empowering cryptocurrency traders and investors, our cutting-edge tool employs advanced analytics, statistics, and algorithms to meticulously track and analyze over 800 cryptocurrencies. Providing a comprehensive view of market conditions, individual crypto movements, and insights from both professional and community references, our platform integrates real-time news sharing to enhance user knowledge. A precise reference for investors and traders alike, our tool serves as a valuable assistant, optimizing profit potential and mitigating risk. It stands as a specialized complement to any crypto exchange, offering a medium for continuous learning to the wider audience.
+
+Official: [Bedcrypto](https://bedcrypto.com/)
+
+Manual: [Guide Bedcrypto](https://guide.bedcrypto.com/)
+
+Mobile Apps: [Android](https://play.google.com/store/apps/details?id=com.planet.signal)
+
