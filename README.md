@@ -20,21 +20,12 @@ This project was carried out in a short time without any preparation, so that so
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/anovanmaximuz/uki
+   git clone https://github.com/anovanmaximuz/uki .
    ```
 
 2. Dockernize
    ```sh
    docker compose up
-   ```
-
-## Alternatives
-If you experience problems with Dockernize, you can do it manually, use this command below to run microservices
-   ```sh
-   cd to_folder_service
-   npm install
-   npx prisma generate
-   npm run start:dev
    ```
 
 ## API Documentations
