@@ -28,6 +28,12 @@ This project was carried out in a short time without any preparation, so that so
    docker compose up
    ```
 
+3. Database
+   ``` sh
+   cd database
+   mysql -u uki -p uki uki < uki.sql
+   ```
+
 ## API Documentations
 Available for auth and order service, using swagger as an API generator to make it easier to consume.
 - Order API documentation can be access via `http://localhost:3000/docs`
