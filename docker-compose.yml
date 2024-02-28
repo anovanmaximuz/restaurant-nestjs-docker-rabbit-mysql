@@ -11,6 +11,8 @@ services:
       - '3001'
     env_file:
       - ./auth/.env
+    depends_on:
+      - db
   order:
     container_name: order-service
     build:
@@ -22,6 +24,8 @@ services:
       - '3000'
     env_file:
       - ./order/.env
+    depends_on:
+      - db
   kitchen:
     container_name: kitchen-service
     build:
@@ -29,6 +33,9 @@ services:
       dockerfile: ./kitchen/Dockerfile
     env_file:
       - ./kitchen/.env
+    depends_on:
+      - db
+      - rabbitmq
   notification:
     container_name: notification-service
     build:
@@ -40,6 +47,9 @@ services:
       - '5000'
     env_file:
       - ./notification/.env
+    depends_on:
+      - db
+      - rabbitmq
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq-local'
