@@ -20,7 +20,7 @@ This project was carried out in a short time without any preparation, so that so
 1. Clone the repo
 
    ```sh
-   git clone https://github.com/anovanmaximuz/uki
+   git clone https://github.com/anovanmaximuz/uki .
    ```
 
 2. Dockernize
