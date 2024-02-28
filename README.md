@@ -1,8 +1,7 @@
 # NestJS-RabbitMQ-MySQL-Swagger
 
-This project starts February 24, 2024 at 9:30 pm, this is a microservice using NESTJS as the core platform, RabbitMQ as the exchanger, MySQL as the relation database, JWT for user authentication.
+This project starts February 24, 2024 at 9:30 pm, this is a microservice using NESTJS as the core platform, RabbitMQ as the exchanger, MySQL as the relation database, JWT for user authentication. This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
 
-This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
 
 ## Architecture
 
@@ -46,7 +45,11 @@ Available for auth and order service, using swagger as an API generator to make 
 
 ## Usage
 
-The application provides four services: `auth` `order` `notification` `kitchen`. `auth` to handle user authentication, `order` to place an order, check the menu and status, `notification` tasked with sending order notification emails, `kitchen` receive orders and carry out order processing. where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
+The application provides four services: `auth` `order` `notification` `kitchen`.
+1. `auth` to handle user authentication
+2. `order` to place an order, check the menu and status, where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
+3. `notification` tasked with sending order notification emails
+4. `kitchen` receive orders and carry out order processing. 
 
 ## How to Use
 1. Make you has been registered to get user_id
