@@ -29,6 +29,8 @@ This project was carried out in a short time without any preparation, so that so
    ```
 
 3. Database
+
+   Locate database file inside `database` folder and import it to mysql containerize
    ``` sh
    cd database
    mysql -u uki -p uki uki < uki.sql
