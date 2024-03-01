@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaModule } from './prisma/prisma.module';
 import {RabbitMQPublisher} from './rabbit.publisher';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [ PrismaModule],
+  imports: [ PrismaModule, ConfigModule.forRoot()],
   controllers: [AppController], 
   providers: [AppService, PrismaService, RabbitMQPublisher],
 })

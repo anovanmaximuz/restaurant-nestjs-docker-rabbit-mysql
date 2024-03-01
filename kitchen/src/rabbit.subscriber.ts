@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 @Injectable()
 export class RabbitMQSubscriber implements OnModuleInit {
   constructor(private readonly appService: AppService) {} 
-    private readonly url = 'amqp://rabbitmq-local';
+  private readonly url = process.env.RABBIT_MQ;
     
     async onModuleInit(): Promise<void> {
     const connection = await amqp.connect(this.url);

@@ -6,7 +6,7 @@ import { PrismaService } from './prisma/prisma.service';
 @Injectable()
 export class RabbitMQSubscriber implements OnModuleInit {
     constructor(private appService:AppService, private prismaService:PrismaService) {}
-    private readonly url = 'amqp://rabbitmq-local';
+    private readonly url = process.env.RABBIT_MQ;
     
     async onModuleInit(): Promise<void> {
     const connection = await amqp.connect(this.url);
