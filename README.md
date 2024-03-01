@@ -34,7 +34,7 @@ This project starts February 24, 2024 at 9:30 pm, this is a microservice using N
    cd database
    mysql -u uki -p uki uki < uki.sql
    ```
-   Youa also can use prisma to create schema and dummy data, locate to order folder:
+   Youa also can use prisma to create schema and dummy data, locate to `order` folder, but first change `.env` to `DATABASE_URL="mysql://uki:uki123@localhost:3306/uki"`
    ```sh
    npx prisma db push
    npx prisma db seed
