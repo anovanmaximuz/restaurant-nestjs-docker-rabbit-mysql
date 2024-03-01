@@ -34,7 +34,11 @@ This project starts February 24, 2024 at 9:30 pm, this is a microservice using N
    cd database
    mysql -u uki -p uki uki < uki.sql
    ```
-
+   Youa also can use prisma to create schema and dummy data, locate to order folder:
+   ```sh
+   npx prisma db push
+   npx prisma db seed
+   ```
 ## API Documentations
 Available for auth and order service, using swagger as an API generator to make it easier to consume.
 - Order API documentation can be access via `http://localhost:3000/docs`
