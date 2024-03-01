@@ -34,7 +34,11 @@ This project starts February 24, 2024 at 9:30 pm, this is a microservice using N
    cd database
    mysql -u uki -p uki uki < uki.sql
    ```
-
+   Youa also can use prisma to create schema and dummy data, locate to `order` folder, but first change `.env` to `DATABASE_URL="mysql://uki:uki123@localhost:3306/uki"`
+   ```sh
+   npx prisma db push
+   npx prisma db seed
+   ```
 ## API Documentations
 Available for auth and order service, using swagger as an API generator to make it easier to consume.
 - Order API documentation can be access via `http://localhost:3000/docs`
@@ -58,9 +62,9 @@ The application provides four services: `auth` `order` `notification` `kitchen`.
 4. If you finish choose then menu then you can Checkout using order_id
 5. After checkout, you will receive an email order detail
 
-## Note
+## Limitation,  for next development
 
-This is just an example, you can use this as a starting point to build your own microservices with NestJS, RabbitMQ, and multiple databases. Make sure to update the database credentials accordingly before running the application.
+Requires further integration to use `JWT Auth` for several services that require user data
 
 ## License
 
@@ -70,4 +74,14 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Ano: [Bedcrypto](https://bedcrypto.com/)
+Ano Van: [LinkedIn](https://www.linkedin.com/in/anovan/)
+
+## My Crypto AI Platform
+Empowering cryptocurrency traders and investors, our cutting-edge tool employs advanced analytics, statistics, and algorithms to meticulously track and analyze over 800 cryptocurrencies. Providing a comprehensive view of market conditions, individual crypto movements, and insights from both professional and community references, our platform integrates real-time news sharing to enhance user knowledge. A precise reference for investors and traders alike, our tool serves as a valuable assistant, optimizing profit potential and mitigating risk. It stands as a specialized complement to any crypto exchange, offering a medium for continuous learning to the wider audience.
+
+Official: [Bedcrypto](https://bedcrypto.com/)
+
+Manual: [Guide Bedcrypto](https://guide.bedcrypto.com/)
+
+Mobile Apps: [Android](https://play.google.com/store/apps/details?id=com.planet.signal)
+
