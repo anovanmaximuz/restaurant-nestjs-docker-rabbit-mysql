@@ -14,7 +14,7 @@ Tidak ada batasan untuk siapa saja yang penting konteks dalam bahasan rancangan 
 
 ## Rancangan Arsitektur
 
-![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/restoran.png?raw=true)
+![alt text](https://github.com/anovanmaximuz/restaurant-nestjs-docker-rabbit-mysql/blob/master/img/restoran.png?raw=true)
 
 ## Kebutuhan
 
@@ -53,7 +53,7 @@ Tersedia untuk service `auth` dan `order`, menggunakan `swagger` sebagai API gen
 - Order API di akses via `http://localhost:3000/docs`
 - Auth API di akses via `http://localhost:3001/docs`
 
-![alt text](https://github.com/anovanmaximuz/nestjs-docker-rabbit-mysql/blob/master/img/swagger.png?raw=true)
+![alt text](https://github.com/anovanmaximuz/restaurant-nestjs-docker-rabbit-mysql/blob/master/img/swagger.png?raw=true)
  
 
 ## Penggunaan
