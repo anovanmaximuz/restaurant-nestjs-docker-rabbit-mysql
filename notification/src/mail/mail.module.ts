@@ -13,12 +13,12 @@ import { MailService } from './mail.service';
           port: 465,
           secure: true,
           auth: {
-            user: "nonuser@kecipir.com",
+            user: "nonuser@domain.com",
             pass: "8*Jk43ZI0]mk",
           },
         },
         defaults: {
-          from: `"No Reply" <nonuser@kecipir.com>`,
+          from: `"No Reply" <nonuser@domain.com>`,
         },
         template: {
           dir: process.cwd() + '/templates/',
