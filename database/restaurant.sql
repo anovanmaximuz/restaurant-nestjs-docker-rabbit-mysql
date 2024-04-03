@@ -4,7 +4,7 @@ Navicat MySQL Data Transfer
 Source Server         : docker-mysql
 Source Server Version : 50744
 Source Host           : localhost:3306
-Source Database       : uki
+Source Database       : restaurant
 
 Target Server Type    : MYSQL
 Target Server Version : 50744
