@@ -41,9 +41,9 @@ Tidak ada batasan untuk siapa saja yang penting konteks dalam bahasan rancangan 
    Cari file dalam folder `database` dan import ke dalam mysql yang sudah jalan dalam docker.
    ``` sh
    cd database
-   mysql -u rest -p restaurant restaurant < uki.sql
+   mysql -u rest -p restaurant restaurant < restaurant.sql
    ```
-   Kamu bisa menggunakan `prisma` untuk membuat skema dan data dummy, masuk ke folder `order` , sebelumnya ubah isi dalam `.env` menjadi `DATABASE_URL="mysql://uki:uki123@localhost:3306/restaurant"`
+   Kamu bisa menggunakan `prisma` untuk membuat skema dan data dummy, masuk ke folder `order` , sebelumnya ubah isi dalam `.env` menjadi `DATABASE_URL="mysql://restaurant:uki123@localhost:3306/restaurant"`
    ```sh
    npx prisma db push
    npx prisma db seed
