@@ -1,6 +1,8 @@
 # NestJS-RabbitMQ-MySQL-Swagger
 
-This project starts February 24, 2024 at 9:30 pm, this is a microservice using NESTJS as the core platform, RabbitMQ as the exchanger, MySQL as the relation database, JWT for user authentication. This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
+Project ini dimulai pada tanggal 24 Feb 2024 jam 🕤 yang mensimulasikan sebuah restoran dengan 3 buah service utama yaitu `Order` `Kitchen` dan `Notification`, dalam komunikasi antar service menggunakan RabbitMQ sebagai exchanger atau perantara komunikasi.
+
+This is a microservice using NESTJS as the core platform, RabbitMQ as the exchanger, MySQL as the relation database, JWT for user authentication, Swagger for API management and test tool. This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
 
 
 ## Architecture
