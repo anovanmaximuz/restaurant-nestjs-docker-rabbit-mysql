@@ -9,7 +9,7 @@ export class MailService {
     
     await this.mailerService.sendMail({
       to: email,
-      from: '"Foods UKI Team" <nonuser@kecipir.com>',
+      from: '"Foods Restaurant Team" <nonuser@domain.com>',
       cc: 'ano.amoeba@gmail.com', 
       subject: 'Your Order Here',
       template: './order',
