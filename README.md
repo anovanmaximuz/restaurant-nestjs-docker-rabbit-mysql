@@ -22,6 +22,7 @@ Tidak ada batasan untuk siapa saja yang penting konteks dalam bahasan rancangan 
 - RabbitMQ
 - MySQL
 - Swagger
+- SMTP Server
 
 ## Instalasi
 
@@ -48,6 +49,9 @@ Tidak ada batasan untuk siapa saja yang penting konteks dalam bahasan rancangan 
    npx prisma db push
    npx prisma db seed
    ```
+4. SMTP Server
+   Pastikan kamu mempunyai SMTP server untuk mengirim email notifikasi order, ubah konfigurasi dalam `notification` service
+   
 ## Dokumentasi API
 Tersedia untuk service `auth` dan `order`, menggunakan `swagger` sebagai API generator agar mudah menggunakannya.
 - Order API di akses via `http://localhost:3000/docs`
