@@ -1,27 +1,34 @@
-# NestJS-RabbitMQ-MySQL-Swagger
+# Microservice Restoran Menggunakan NestJS-RabbitMQ-MySQL-Swagger
 
-Project ini dimulai pada tanggal 24 Feb 2024 jam 🕤 yang mensimulasikan sebuah restoran dengan 3 buah service utama yaitu `Order` `Kitchen` dan `Notification`, dalam komunikasi antar service menggunakan RabbitMQ sebagai exchanger atau perantara komunikasi.
+Project ini dimulai pada tanggal 24 Feb 2024 jam 🕤 yang mensimulasikan sebuah restoran dengan 4 buah service utama yaitu `auth` `Order` `Kitchen` dan `Notification`.
 
-This is a microservice using NESTJS as the core platform, RabbitMQ as the exchanger, MySQL as the relation database, JWT for user authentication, Swagger for API management and test tool. This project was carried out in a short time without any preparation, so that some bugs might be encountered when running it. Therefore you can contact me for further problem handling.
+Ini adalah rancangan arstiektur microservice menggunakan NESTJS sebagai platform inti, RabbitMQ sebagai exchange command, MySQL sebagai database, JWT untuk otentikasi pengguna, Swagger untuk manajemen API dan alat pengujian. Proyek ini dikerjakan dalam waktu yang singkat tanpa persiapan apapun, sehingga mungkin saja ditemui beberapa bug saat menjalankannya. Oleh karena itu Anda dapat menghubungi saya untuk penanganan masalah lebih lanjut.
 
+## Proyek Ini Cocok Untuk Siapa?
+Tidak ada batasan untuk siapa saja yang penting konteks dalam bahasan rancangan sederhana ini dapat berguna, namun cocok sekali jika kamu ingin mengimplementasikan dan explorasi microservice menggunakan framework nestjs, docker, mysql, rabbitmq. Tapi mungkin kamu adalah orang dalam daftar di bawah ini:
+- Mahasiswa tingkat akhir yang sedang mencari bahan untuk rancangan microservice
+- Orang yang penasaran dengan microservice
+- Sedang menambah portfolio untuk CVnya
+- Ingin mengembangkan platform restoran yang ringan
+- Nyari source code gratisan untuk di koleksi
 
-## Architecture
+## Rancangan Arsitektur
 
-![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/skema.png?raw=true)
+![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/restoran.png?raw=true)
 
-## Prerequisites
+## Kebutuhan
 
 - Node.js 18.x
 - RabbitMQ
 - MySQL
 - Swagger
 
-## Installation
+## Instalasi
 
-1. Clone the repo
+1. Clone repository
 
    ```sh
-   git clone https://github.com/anovanmaximuz/uki .
+   git clone https://github.com/anovanmaximuz/nestjs-docker-rabbit-mysql .
    ```
 
 2. Dockernize
@@ -31,52 +38,52 @@ This is a microservice using NESTJS as the core platform, RabbitMQ as the exchan
 
 3. Database
 
-   Locate database file inside `database` folder and import it to mysql containerize
+   Cari file dalam folder `database` dan import ke dalam mysql yang sudah jalan dalam docker.
    ``` sh
    cd database
-   mysql -u uki -p uki uki < uki.sql
+   mysql -u rest -p restaurant restaurant < uki.sql
    ```
-   Youa also can use prisma to create schema and dummy data, locate to `order` folder, but first change `.env` to `DATABASE_URL="mysql://uki:uki123@localhost:3306/uki"`
+   Kamu bisa menggunakan `prisma` untuk membuat skema dan data dummy, masuk ke folder `order` , sebelumnya ubah isi dalam `.env` menjadi `DATABASE_URL="mysql://uki:uki123@localhost:3306/restaurant"`
    ```sh
    npx prisma db push
    npx prisma db seed
    ```
-## API Documentations
-Available for auth and order service, using swagger as an API generator to make it easier to consume.
-- Order API documentation can be access via `http://localhost:3000/docs`
-- Auth API documentation can be access via `http://localhost:3001/docs`
+## Dokumentasi API
+Tersedia untuk service `auth` dan `order`, menggunakan `swagger` sebagai API generator agar mudah menggunakannya.
+- Order API di akses via `http://localhost:3000/docs`
+- Auth API di akses via `http://localhost:3001/docs`
 
-![alt text](https://github.com/anovanmaximuz/uki/blob/master/img/swagger.png?raw=true)
+![alt text](https://github.com/anovanmaximuz/nestjs-docker-rabbit-mysql/blob/master/img/swagger.png?raw=true)
  
 
-## Usage
+## Penggunaan
 
-The application provides four services: `auth` `order` `notification` `kitchen`.
+Dalam rancangan ini menyediakan 4 services: `auth` `order` `notification` `kitchen`.
 1. `auth` to handle user authentication
-2. `order` to place an order, check the menu and status, where the orders will be sent to the orders queue to RabbitMQ and consumed by notifications and kitchen service.
-3. `notification` tasked with sending order notification emails
-4. `kitchen` receive orders and carry out order processing. 
+2. `order` untuk membuat pesanan, cek menu dan status, ketika order dibuat akan dikirimkan ke dalam antrian RabbitMQ dan di consumed oleh notifications dan kitchen service.
+3. `notification` bertugas mengirimkan email konfirmasi pesanan
+4. `kitchen` menerima order dan merubah status order menjadi `processing`. 
 
-## How to Use
+## Cara Pakai
 1. Make you has been registered to get user_id
 2. Fetch menu before place an order to get food_id
 3. Determine your order_id but now it is still in number format, it can be developed for unique invoice numbers in the future
 4. If you finish choose then menu then you can Checkout using order_id
 5. After checkout, you will receive an email order detail
 
-## Limitation,  for next development
+## Batasan,  untuk pengembangan lebih lanjut
 
-Requires further integration to use `JWT Auth` for several services that require user data
+Fungsi `JWT Auth` bisa di eksplore lebih jauh lagi untuk layanan yang membutuhkan data user secara khhusus, kamu bisa menggunakan aplikasi untuk dasar pengembangan yang lebih komplek.
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Bebas dipakai, didistribusikan, di acak-acak dengan catatan tidak menghilangkan sumber asli source code ini!
 
 <!-- CONTACT -->
 
 ## Contact
 
-Ano Van: [LinkedIn](https://www.linkedin.com/in/anovan/)
+Yuk Kenalan --> [LinkedIn](https://www.linkedin.com/in/anovan/)
 
 ## My Crypto AI Platform
 Empowering cryptocurrency traders and investors, our cutting-edge tool employs advanced analytics, statistics, and algorithms to meticulously track and analyze over 800 cryptocurrencies. Providing a comprehensive view of market conditions, individual crypto movements, and insights from both professional and community references, our platform integrates real-time news sharing to enhance user knowledge. A precise reference for investors and traders alike, our tool serves as a valuable assistant, optimizing profit potential and mitigating risk. It stands as a specialized complement to any crypto exchange, offering a medium for continuous learning to the wider audience.
